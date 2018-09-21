@@ -26,13 +26,10 @@
       },
       {
         "__id__": 5
-      },
-      {
-        "__id__": 6
       }
     ],
     "_prefab": {
-      "__id__": 7
+      "__id__": 6
     },
     "_id": "",
     "_opacity": 255,
@@ -172,25 +169,6 @@
       "y": 0
     },
     "_radius": 105
-  },
-  {
-    "__type__": "a1d6boJ7LJDdrjwCIS245pc",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "timer": {
-      "__id__": 2
-    },
-    "posx": 0,
-    "right": false,
-    "lastSpeed": 0,
-    "tagged": false,
-    "rush": false,
-    "height": 0,
-    "pT": 0
   },
   {
     "__type__": "cc.PrefabInfo",

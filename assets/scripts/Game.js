@@ -9,7 +9,7 @@ cc.Class({
         player:cc.Node,
         univ:cc.Node, 
         planetCtr:0,
-        camera:cc.Node
+        camera:cc.Node, 
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -19,8 +19,7 @@ cc.Class({
         var t = this 
         this.addPlanets()
         
-        var gameTimer = this.schedule(function() {   
-            if(  this.planetCtr -this.player.height <=4 )this.addPlanets()
+        var gameTimer = this.schedule(function() {    
            // this.moveCamera()
             
         
@@ -36,8 +35,8 @@ cc.Class({
     },
     addPlanet(){
         var pla = cc.instantiate(this.planet)
-        this.univ.addChild(pla)
-        pla.self = pla
+        var a = 
+        this.univ.addChild(pla) 
         pla.rush = false
         pla.position = cc.v2(cc.randomMinus1To1()*193,340*this.planetCtr)
         this.planetCtr+=1
