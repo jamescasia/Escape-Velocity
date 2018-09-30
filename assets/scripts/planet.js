@@ -11,16 +11,19 @@ var globals = require("globals")
 cc.Class({
     extends: cc.Component,
 
-    properties: {
-        timer:cc.Node,
+    properties: { 
+        Game:{
+            default:null,
+            serializable:false
+        },
         posx:0,
         right:false,
         lastSpeed:0,
         tagged:false,
         rush:false,
-        height:0, 
-        pT:0,
-        self:cc.Node
+        height:null, 
+        pT:0, 
+        namae:null
 
         // foo: {
         //     // ATTRIBUTES:
@@ -40,30 +43,42 @@ cc.Class({
     },
 
     // LIFE-CYCLE CALLBACKS:
+    setID(id){
+ 
+    },
+
+
 
     onLoad () {
+        
         var pos = [ 135,145,105,165, 110, 215, 255, 235]
         this.pT =  Math.floor( pos[cc.rand()%8]  )
         var dt = 1/80
-        var speed = 200 + cc.random0To1()*800
+        var speed = 200 + cc.random0To1()*500
            
         var t = this
         var ctr = 0
-        this.height = parseInt(this.node.y )%340
+        this.height = parseInt(this.node.y )/440
  
         
         var gameTimer = this.schedule(function() { 
-        if(ctr>=2000) ctr = 0
-        console.log(globals.playerHeight, "height", this.height)
-        console.log(this.self, 'self')
-        if(  (globals.playerHeight)> this.height+1 && globals.playerHeight!= undefined) this.node.destroy()
+         //   console.log(this.height, 'my hiehgt')
+        if(ctr>=2000) ctr = 0 
+        //console.log(this.self, 'self')
+        if(  (globals.playerHeight)-6>= this.height && globals.playerHeight!= undefined) {this.node.destroy()
+
+            console.log("destroyed self")}
 
         ctr+=1
 
-        this.node.position =  cc.v2(this.posx , this.node.position.y)
-         
-        if (this.posx >= 180 && this.posx <=190)  this.right = true
-		if (this.posx <= -180 && this.posx >=-190) this.right = false
+        this.node.position =  cc.v2(this.posx , this.node.position.y) 
+            // if( cc.director.getWinSize().height/cc.director.getWinSize().width <= 1.34     )  
+        var a =  -114.29 *(cc.director.getWinSize().height/cc.director.getWinSize().width ) + 441.43
+
+        var b = a + 50
+        console.log(a,b)
+        if (this.posx >= a && this.posx <=b)  this.right = true
+		if (this.posx <= -a && this.posx >=-b) this.right = false
 		if (this.right) this.posx-=speed*dt 
         else if (!this.right) this.posx+=speed*dt 
 
@@ -75,13 +90,13 @@ cc.Class({
         }
 
         var pauseFunc = function(){
-            console.log("paused")
+           // console.log("paused")
             t.lastSpeed = speed
             speed = 0 
         }
         var pause = cc.sequence(cc.callFunc(pauseFunc, t), cc.delayTime( cc.random0To1()*1.2) , cc.callFunc(resume, t)  ) 
         if(ctr % this.pT== 0   ) {
-            this.timer.runAction(pause)
+            this.node.runAction(pause)
             ctr+= parseInt(cc.rand%25)}
             
 
@@ -102,7 +117,7 @@ cc.Class({
         this.tagged = true
         
         if(this.rush) this.explode()
-        console.log('tagged')
+       // console.log('tagged')
     },
     explode(){
         var exploded = function(){
