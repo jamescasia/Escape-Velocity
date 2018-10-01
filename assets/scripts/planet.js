@@ -16,6 +16,7 @@ cc.Class({
             default:null,
             serializable:false
         },
+        type:"",
         posx:0,
         right:false,
         lastSpeed:0,
@@ -23,7 +24,9 @@ cc.Class({
         rush:false,
         height:null, 
         pT:0, 
-        namae:null
+        namae:null,
+        stop:false,
+        canCall:true, 
 
         // foo: {
         //     // ATTRIBUTES:
@@ -54,64 +57,13 @@ cc.Class({
         var pos = [ 135,145,105,165, 110, 215, 255, 235]
         this.pT =  Math.floor( pos[cc.rand()%8]  )
         var dt = 1/80
-        var speed = 200 + cc.random0To1()*500
+        this. speed = 200 + cc.random0To1()*500
            
         var t = this
         var ctr = 0
         this.height = parseInt(this.node.y )/440
  
-        
-        var gameTimer = this.schedule(function() { 
-         //   console.log(this.height, 'my hiehgt')
-        if(ctr>=2000) ctr = 0 
-        //console.log(this.self, 'self')
-        if(  (globals.playerHeight)-6>= this.height && globals.playerHeight!= undefined) {this.node.destroy()
-
-            console.log("destroyed self")}
-
-        ctr+=1
-
-        this.node.position =  cc.v2(this.posx , this.node.position.y) 
-            // if( cc.director.getWinSize().height/cc.director.getWinSize().width <= 1.34     )  
-        var a =  -114.29 *(cc.director.getWinSize().height/cc.director.getWinSize().width ) + 441.43
-
-        var b = a + 50
-        console.log(a,b)
-        if (this.posx >= a && this.posx <=b)  this.right = true
-		if (this.posx <= -a && this.posx >=-b) this.right = false
-		if (this.right) this.posx-=speed*dt 
-        else if (!this.right) this.posx+=speed*dt 
-
-
-        
-        
-        var resume = function(){
-            speed = t.lastSpeed
-        }
-
-        var pauseFunc = function(){
-           // console.log("paused")
-            t.lastSpeed = speed
-            speed = 0 
-        }
-        var pause = cc.sequence(cc.callFunc(pauseFunc, t), cc.delayTime( cc.random0To1()*1.2) , cc.callFunc(resume, t)  ) 
-        if(ctr % this.pT== 0   ) {
-            this.node.runAction(pause)
-            ctr+= parseInt(cc.rand%25)}
-            
-
-        }, dt );
-
        
-        
-        
-        // var movement = cc.repeatForever(
-        //     cc.sequence(
-        //         cc.moveTo(speed , 180, this.node.position.y),
-        //         cc.moveTo(speed , -180, this.node.position.y), 
-        //     ) ) 
-
-        // this.node.runAction(movement)
     },
     landed(){
         this.tagged = true
@@ -138,5 +90,45 @@ cc.Class({
 
     },
 
-    // update (dt) {},
+    update (dt) { 
+
+        if(  (globals.playerHeight)-6>= this.height && globals.playerHeight!= undefined) {this.node.destroy()
+
+            console.log("destroyed self")}
+ 
+
+        this.node.position =  cc.v2(this.posx , this.node.position.y) 
+            // if( cc.director.getWinSize().height/cc.director.getWinSize().width <= 1.34     )  
+        var a =  -114.29 *(cc.director.getWinSize().height/cc.director.getWinSize().width ) + 441.43
+
+        var b = a + 50 
+        if (this.posx >= a && this.posx <=b)  this.right = true
+        if (this.posx <= -a && this.posx >=-b) this.right = false
+        if(this.canCall&& this.type == "aberrant")this.stopTimer(0.5 + cc.random0To1()*2 )
+        if(!this.stop) {
+		if (this.right) this.posx-=this.speed*dt 
+        else if (!this.right) this.posx+=this.speed*dt }
+
+    },
+    stopTimer(dur){
+        this.stop = true
+        this.canCall = false
+
+        var time = this.schedule(function() {  
+                 
+            this.stop = false
+            this.callTime()
+        
+            },0,0 , dur);
+    },
+    callTime(){
+
+        var time = this.schedule(function() {   
+            this.canCall = true
+            },0,0 , 0.7 + cc.random0To1()*1.5);
+    },
+     
+
+
+
 });

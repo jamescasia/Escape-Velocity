@@ -23,12 +23,14 @@ cc.Class({
         ins:cc.Node,
         storage:null,
         numOfGames:0,
-        coins:0
+        coins:0,
+        types:[]
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () { 
+        this.types = ["aberrant", "normal"]
 
 
         this.scoreLabel.opacity = 0
@@ -41,8 +43,8 @@ cc.Class({
         var breathing = cc.repeatForever(
             cc.sequence(
                 cc.moveBy(2, 0, -12).easing(cc.easeCubicActionOut()),
-                cc.moveBy(2, 0, -6).easing(cc.easeQuarticActionIn()),
-                cc.moveBy(2 , 0, 0).easing(cc.easeCubicActionOut())
+                cc.moveBy(2, 0, 6).easing(cc.easeQuarticActionIn()),
+                cc.moveBy(2 , 0, 6).easing(cc.easeCubicActionOut())
             ) 
         )
         this.ins.runAction(breathing)
@@ -51,17 +53,17 @@ cc.Class({
         var t = this 
         this.addPlanets()
         
-        var gameTimer = this.schedule(function() { 
-            this.score = this.player.getComponent('player').height 
-            this.scoreLabel.getComponent(cc.Label).string = this.score  
-            if(this.score > this.bestScore) this.storage.bestScore = this.score , this.ss()
-           if(   this.player.getComponent('player').height + 5>=  this.planetCtr   )this.addPlanet()
+        // var gameTimer = this.schedule(function() { 
+        //     this.score = this.player.getComponent('player').height 
+        //     this.scoreLabel.getComponent(cc.Label).string = this.score  
+        //     if(this.score > this.bestScore) this.storage.bestScore = this.score , this.ss()
+        //    if(   this.player.getComponent('player').height + 5>=  this.planetCtr   )this.addPlanet()
 
            
            
             
         
-        }, dt );
+        // }, dt );
 
         
         
@@ -85,8 +87,7 @@ cc.Class({
          
         this.ss()
     },
-    firstTap(){
-        console.log("FIRT")
+    firstTap(){ 
         var ins = cc.fadeIn(0.3)
         var sins = cc.fadeIn(0.3)
         var app = function(){
@@ -110,6 +111,7 @@ cc.Class({
         var otoy = cc.instantiate(this.planet)
         this.univ.addChild(otoy) 
         otoy.rush = false
+        otoy.getComponent('planet').type =this.types [parseInt(cc.rand())%2 ]
         otoy.position = cc.v2( -270 + (540)* cc.random0To1(),440*this.planetCtr) 
         otoy.getComponent('planet').height =  parseInt(otoy.position.y /440) 
         this.planetCtr+=1  
@@ -121,8 +123,7 @@ cc.Class({
             console.log('loop') 
             this.addPlanet( )
         
-        }
-        console.log(this.planets)
+        } 
     },
     landed(){
         this.moveCamera() 
@@ -137,5 +138,13 @@ cc.Class({
     },
 
 
-    // update (dt) {},
+    update (dt) {
+
+        this.score = this.player.getComponent('player').height 
+        this.scoreLabel.getComponent(cc.Label).string = this.score  
+        if(this.score > this.bestScore) this.storage.bestScore = this.score , this.ss()
+       if(   this.player.getComponent('player').height + 5>=  this.planetCtr   )this.addPlanet()
+
+       
+    },
 });

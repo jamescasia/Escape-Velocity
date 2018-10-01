@@ -38,19 +38,19 @@ cc.Class({
         
 
             var dt = 1/80
-            var speed = 200 + cc.random0To1()*800 
+            this. speed = 200 + cc.random0To1()*800 
             var t = this
             var ctr = 0
 
-            var gameTimer = this.schedule(function() {  
-                this.height = parseInt(this.node.y /440)+1 
-                globals.playerHeight = this.height 
-                if(!this.firing)this.rotate(dt)
-                if(this.landed) this.node.position = cc.v2 (this.curPlanet.node.position.x, this.curPlanet.node.position.y)
+            // var gameTimer = this.schedule(function() {  
+            //     this.height = parseInt(this.node.y /440)+1 
+            //     globals.playerHeight = this.height 
+            //     if(!this.firing)this.rotate(dt)
+            //     if(this.landed) this.node.position = cc.v2 (this.curPlanet.node.position.x, this.curPlanet.node.position.y)
          
                     
         
-            }, dt );
+            // }, dt );
 
         
     },
@@ -62,6 +62,11 @@ cc.Class({
     },
 
     update(dt){
+        this.height = parseInt(this.node.y /440)+1 
+        globals.playerHeight = this.height 
+        if(!this.firing)this.rotate(dt)
+        if(this.landed) this.node.position = cc.v2 (this.curPlanet.node.position.x, this.curPlanet.node.position.y)
+
       //  console.log( 400* Math.sin(  0.0174533*this.head.rotation ) )
         
     },
@@ -70,8 +75,8 @@ cc.Class({
         //console.log("angles" + this.angles)
         this.head.rotation =this.angles 
 
-        if (this.angles >= 80 && this.angles <=90)  this.anglesplus = true
-		if (this.angles <= -80 && this.angles >=-90) this.anglesplus = false
+        if (this.angles >= 80 && this.angles <=120)  this.anglesplus = true
+		if (this.angles <= -80 && this.angles >=-120) this.anglesplus = false
 		if (this.anglesplus) this.angles-=100*dt 
         else if (!this.anglesplus) this.angles+=100*dt 
         
@@ -97,8 +102,7 @@ cc.Class({
         this.head.runAction(this.fireAction)
     },
 
-    hit(body){
-        console.log("hit")
+    hit(body){ 
         this.curPlanet=body
         this.land() 
         body.node.getComponent('planet').landed()
@@ -122,8 +126,7 @@ cc.Class({
 
     },
 
-    gameOver(){
-        console.log("GAME OVER")
+    gameOver(){ 
         cc.director.loadScene("Game")
 
     }
