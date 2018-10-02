@@ -14,7 +14,8 @@ cc.Class({
         curPlanet:cc.CircleCollider,
         lose:false,
         height:0,
-        touched:false
+        touched:false,
+        trail:cc.Node
 
         
     },
@@ -22,6 +23,8 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        this.trail.setLocalZOrder(-2)
+        this.trail.opacity = 0
         this.height = parseInt(this.node.y /440)+1 
         globals.playerHeight = this.height 
         this.angles = 0
@@ -86,12 +89,15 @@ cc.Class({
     },
     stopFire(){
         this.firing = false
+        this.trail.opacity = 0
         if(!this.landed) { this.lose = true
         this.gameOver()}
     },
 
     fire(){
         if(this.firing)return
+        this.trail.getComponent(cc.ParticleSystem).resetSystem()  
+        this.trail.opacity = 255
         this.landed =false
         this.firing = true
         this.fireAction =  cc.sequence(
@@ -117,7 +123,7 @@ cc.Class({
         this.head.position = cc.v2(0, 0)
         this.landed = true 
         if(this.landed) this.node.position = cc.v2 (this.curPlanet.node.position.x, this.curPlanet.node.position.y)
-        
+        this.trail.getComponent(cc.ParticleSystem).stopSystem()  
        this.game.getComponent('Game').landed()
         
         //

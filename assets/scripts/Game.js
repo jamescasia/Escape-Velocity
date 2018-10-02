@@ -1,6 +1,6 @@
 var manager = cc.director.getCollisionManager();
 manager.enabled = true;
- 
+var globals = require("globals")
 cc.Class({
     extends: cc.Component,
 
@@ -29,6 +29,7 @@ cc.Class({
         over:false,
         scoreBoard:cc.Node,
         gOverNode:cc.Node,
+        count:0
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -97,7 +98,18 @@ cc.Class({
         
         
     },
+    earthCam(){
+        this.player.position= cc.v2(0,-440)
+
+        var camMove = cc.sequence( 
+            cc.delayTime(0),
+            (cc.moveTo(0.6, 0 ,  this.player.position.y +440)).easing(cc.easeQuarticActionOut()))
+        this.camera.runAction(camMove)
+    },
     gameOver(){
+        this.earthCam()
+        if(this.score > this.bestScore) this.storage.bestScore = this.score , this.bestScore = this.score, this.ss()
+        globals.planetCount = 0
 
         this.over = true
         this.numOfGames +=1
@@ -136,8 +148,7 @@ cc.Class({
         this.storage =  JSON.parse(cc.sys.localStorage.getItem('local'))
     },
     loadData(){
-        this.storage = JSON.parse (cc.sys.localStorage.getItem('local'))  
-        console.log('fiiirst ' , this.storage)  
+        this.storage = JSON.parse (cc.sys.localStorage.getItem('local'))   
         if(  this.storage == null  ){ 
             this.storage = {bestScore:0, numOfGames :0, coins:0}  
         cc.sys.localStorage.setItem('local',JSON.stringify( this.storage)) 
@@ -165,16 +176,17 @@ cc.Class({
 
     },
 
-    start () {
-        console.log("widht", cc.director.getWinSize().height/cc.director.getWinSize().width)
+    start () { 
 
     },
     addPlanet( ){ 
+        globals.planetCount+=1
         var otoy = cc.instantiate(this.planet)
         this.univ.addChild(otoy) 
         otoy.rush = false
         otoy.getComponent('planet').type =this.types [parseInt(cc.rand())%2 ]
-        otoy.position = cc.v2( -270 + (540)* cc.random0To1(),440*this.planetCtr) 
+        var a =  -114.29 *(cc.director.getWinSize().height/cc.director.getWinSize().width ) + 441.43 
+        otoy.position = cc.v2( -a + (2*a)* cc.random0To1(),440*this.planetCtr) 
         otoy.getComponent('planet').height =  parseInt(otoy.position.y /440) 
         // var trail = cc.instantiate(this.trailFab)
         // trail.getComponent('trailScript').leader = otoy
@@ -184,8 +196,7 @@ cc.Class({
         
     }, 
     addPlanets(){
-        for(var i = 0; i<6; i++) {
-            console.log('loop') 
+        for(var i = 0; i<4; i++) { 
             this.addPlanet( )
         
         } 
@@ -194,6 +205,7 @@ cc.Class({
         this.moveCamera() 
         
     },
+    
     moveCamera(){ 
         var camMove = cc.sequence( 
             cc.delayTime(0),
@@ -203,12 +215,12 @@ cc.Class({
     },
 
 
-    update (dt) {
+    update (dt) { 
 
         this.score = this.player.getComponent('player').height 
         this.scoreLabel.getComponent(cc.Label).string = this.score  
-        if(this.score > this.bestScore) this.storage.bestScore = this.score , this.ss()
-       if(   this.player.getComponent('player').height + 5>=  this.planetCtr   )this.addPlanet()
+        
+       if(   this.player.getComponent('player').height + 3>=  this.planetCtr   )this.addPlanet()
 
        
     },

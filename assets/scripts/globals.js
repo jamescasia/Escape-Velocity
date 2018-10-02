@@ -9,5 +9,8 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
 var playerHeight = 0
-var globals = {}
+var planetCount = 0
+var globals = {
+    planetCount:0
+}
 module.exports = globals;

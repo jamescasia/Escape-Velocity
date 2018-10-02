@@ -29,21 +29,7 @@ cc.Class({
         canCall:true, 
         part:cc.Node
 
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
+    
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -55,6 +41,8 @@ cc.Class({
 
     onLoad () {
         this.part.setLocalZOrder(-4)
+        var a =  -114.29 *(cc.director.getWinSize().height/cc.director.getWinSize().width ) + 441.43 
+        
          
         var dt = 1/80
         this. speed = 200 + cc.random0To1()*500
@@ -69,6 +57,7 @@ cc.Class({
         this.tagged = true
         
         if(this.rush) this.explode()
+        
        // console.log('tagged')
     },
     explode(){
@@ -92,9 +81,10 @@ cc.Class({
 
     update (dt) { 
 
-        if(  (globals.playerHeight)-6>= this.height && globals.playerHeight!= undefined) {this.node.destroy()
-
-            console.log("destroyed self")}
+        if(  (globals.playerHeight)-8>= this.height && globals.playerHeight!= undefined) {
+            globals.planetCount-=1
+            this.node.destroy()
+             }
  
 
         this.node.position =  cc.v2(this.posx , this.node.position.y) 

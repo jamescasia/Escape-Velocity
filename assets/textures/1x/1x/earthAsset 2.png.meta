@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "cd56cb8f-19f8-457e-87a7-350b1bef4400",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "earthAsset 2": {
+      "ver": "1.0.3",
+      "uuid": "003d1a9d-f101-4d90-a19d-a1cbfa4174b1",
+      "rawTextureUuid": "cd56cb8f-19f8-457e-87a7-350b1bef4400",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 296,
+      "height": 296,
+      "rawWidth": 296,
+      "rawHeight": 296,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
