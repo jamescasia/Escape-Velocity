@@ -72,7 +72,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "trail",
+    "_name": "particlesystem",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -89,12 +89,12 @@
       "__id__": 4
     },
     "_id": "",
-    "_opacity": 255,
+    "_opacity": 33,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 177,
+      "g": 46,
+      "b": 46,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -115,7 +115,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 0
+      "y": -2
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -125,25 +125,95 @@
     "groupIndex": 0
   },
   {
-    "__type__": "cc.MotionStreak",
+    "__type__": "cc.ParticleSystem",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 2
     },
     "_enabled": true,
-    "_fadeTime": 3,
-    "_minSeg": 1,
-    "_stroke": 260,
-    "_color": {
+    "_custom": true,
+    "_texture": {
+      "__uuid__": "076eb38e-ee98-499c-ae33-b5b85451c4cd"
+    },
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "playOnLoad": true,
+    "_autoRemoveOnFinish": false,
+    "_totalParticles": 100,
+    "_duration": -1,
+    "_emissionRate": 100,
+    "_life": 0.18,
+    "_lifeVar": 0,
+    "_startColor": {
       "__type__": "cc.Color",
       "r": 255,
       "g": 255,
       "b": 255,
+      "a": 33
+    },
+    "_startColorVar": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
       "a": 255
     },
-    "_fastMode": false,
-    "_N$preview": false
+    "_endColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 33
+    },
+    "_endColorVar": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0
+    },
+    "_angle": -1.2,
+    "_angleVar": 0,
+    "_startSize": 220,
+    "_startSizeVar": 0,
+    "_endSize": 140,
+    "_endSizeVar": 0,
+    "_startSpin": 0,
+    "_startSpinVar": 0,
+    "_endSpin": 0,
+    "_endSpinVar": 0,
+    "_sourcePos": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_posVar": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_positionType": 0,
+    "_emitterMode": 1,
+    "_gravity": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_speed": 180,
+    "_speedVar": 50,
+    "_tangentialAccel": 80,
+    "_tangentialAccelVar": 0,
+    "_radialAccel": 0,
+    "_radialAccelVar": 0,
+    "_rotationIsDir": false,
+    "_startRadius": 0,
+    "_startRadiusVar": 0,
+    "_endRadius": 0,
+    "_endRadiusVar": 0,
+    "_rotatePerS": 0,
+    "_rotatePerSVar": 0,
+    "_N$preview": true
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -153,7 +223,7 @@
     "asset": {
       "__uuid__": "b4fa0f2c-1aea-468c-a8d7-42f9c6967901"
     },
-    "fileId": "2e+w7CxZNHb5FMdETqoOfL",
+    "fileId": "868c9k4nqZNHpGMlTm0Yx6q",
     "sync": false
   },
   {
@@ -217,7 +287,7 @@
     "namae": null,
     "stop": false,
     "canCall": true,
-    "trail": {
+    "part": {
       "__id__": 2
     }
   },

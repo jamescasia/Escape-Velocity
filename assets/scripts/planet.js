@@ -27,6 +27,7 @@ cc.Class({
         namae:null,
         stop:false,
         canCall:true, 
+        part:cc.Node
 
         // foo: {
         //     // ATTRIBUTES:
@@ -53,9 +54,8 @@ cc.Class({
 
 
     onLoad () {
-        
-        var pos = [ 135,145,105,165, 110, 215, 255, 235]
-        this.pT =  Math.floor( pos[cc.rand()%8]  )
+        this.part.setLocalZOrder(-4)
+         
         var dt = 1/80
         this. speed = 200 + cc.random0To1()*500
            
@@ -101,7 +101,7 @@ cc.Class({
             // if( cc.director.getWinSize().height/cc.director.getWinSize().width <= 1.34     )  
         var a =  -114.29 *(cc.director.getWinSize().height/cc.director.getWinSize().width ) + 441.43
 
-        var b = a + 50 
+        var b = a + 200
         if (this.posx >= a && this.posx <=b)  this.right = true
         if (this.posx <= -a && this.posx >=-b) this.right = false
         if(this.canCall&& this.type == "aberrant")this.stopTimer(0.5 + cc.random0To1()*2 )

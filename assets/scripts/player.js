@@ -62,11 +62,12 @@ cc.Class({
     },
 
     update(dt){
+        if(this.touched){
         this.height = parseInt(this.node.y /440)+1 
         globals.playerHeight = this.height 
         if(!this.firing)this.rotate(dt)
         if(this.landed) this.node.position = cc.v2 (this.curPlanet.node.position.x, this.curPlanet.node.position.y)
-
+        }
       //  console.log( 400* Math.sin(  0.0174533*this.head.rotation ) )
         
     },
@@ -124,10 +125,14 @@ cc.Class({
         //  
 
 
-    },
-
+    }, 
     gameOver(){ 
-        cc.director.loadScene("Game")
+        this.node.opacity =0
+        this.game.getComponent('Game').gameOver()
+        
+        var over = cc.sequence(cc.delayTime(0), cc.fadeOut(0))
+        // this.node.runAction(over)
+        // cc.director.loadScene("Game")
 
     }
 

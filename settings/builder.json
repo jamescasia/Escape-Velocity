@@ -2,7 +2,9 @@
   "appKey": "",
   "appSecret": "",
   "encryptJs": false,
-  "excludeScenes": [],
+  "excludeScenes": [
+    "fbd5e1d8-6448-4be2-8714-450dadd8c293"
+  ],
   "fb-instant-games": {},
   "includeAnySDK": false,
   "includeSDKBox": false,
@@ -25,10 +27,10 @@
     "REMOTE_SERVER_ROOT": "",
     "orientation": "portrait"
   },
-  "renderMode": "0",
+  "renderMode": "2",
   "startScene": "cc9517d0-6025-4c5e-baa8-1a47195706d7",
-  "title": "EscapeVelocityCC",
-  "webOrientation": "auto",
+  "title": "EscapeVelocity",
+  "webOrientation": "portrait",
   "wechatgame": {
     "REMOTE_SERVER_ROOT": "",
     "appid": "wx6ac3f5090a6b99c5",

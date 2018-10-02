@@ -24,15 +24,37 @@ cc.Class({
         storage:null,
         numOfGames:0,
         coins:0,
-        types:[]
+        trailFab:cc.Prefab,
+        types:[],
+        over:false,
+        scoreBoard:cc.Node,
+        gOverNode:cc.Node,
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () { 
+        this.node.opacity = 0
+
+        var blink =cc.sequence ( 
+            cc.delayTime(0),
+            cc.fadeIn(0.25), 
+            // cc.callFunc(this.restart, this)
+    
+    
+    )
+        this.node.runAction(blink)
         this.types = ["aberrant", "normal"]
 
-
+        var t = this;
+        cc.eventManager.addListener({
+            event: cc.EventListener.TOUCH_ONE_BY_ONE, 
+            onTouchBegan: function(touch, event) { 
+                
+                if(t.over) t.restart()
+                return true
+            },
+        }, t.node);
         this.scoreLabel.opacity = 0
         this.bestLabel.opacity = 0
         this.loadData()
@@ -69,6 +91,46 @@ cc.Class({
         
         
     },
+    restart(){
+        cc.director.loadScene("Game")
+        
+        
+        
+    },
+    gameOver(){
+
+        this.over = true
+        this.numOfGames +=1
+        this.storage.numOfGames = this.numOfGames 
+        this.scoreBoard.getChildByName('b').opacity = 0
+        this.ss()
+        
+        // var move = cc.sequence(cc.moveBy(0.4, 0 , -50), cc.scaleTo(0.2, 1.4,1.4))
+        // this.scoreBoard.runAction(move)
+        this.gOverNode.getChildByName("best").getComponent(cc.Label).string = "Your best is "+ this.bestScore+"\n in " + this.numOfGames +" games"
+        var show = function(){
+            this.gOverNode.position =cc.v2(0,331)
+            this.gOverNode.opacity =255
+            this.scoreBoard.position = cc.v2( 0 , 82)
+
+            this.scoreBoard.scale = cc.v2(1.4,1.4)
+
+            var a = cc.repeatForever(cc.sequence(cc.fadeIn(0.5),cc.fadeOut(0.9)))
+            this.gOverNode.getChildByName('retry').runAction(a)
+
+        }
+        var blink =cc.sequence (
+            cc.fadeOut(0.2),
+            cc.callFunc(show, this),
+            cc.fadeIn(0.2),
+            
+    
+    
+    )
+        this.node.runAction(blink)
+
+    },
+
     ss(){ 
         cc.sys.localStorage.setItem('local', JSON.stringify (this.storage) )
         this.storage =  JSON.parse(cc.sys.localStorage.getItem('local'))
@@ -107,13 +169,16 @@ cc.Class({
         console.log("widht", cc.director.getWinSize().height/cc.director.getWinSize().width)
 
     },
-    addPlanet( ){
+    addPlanet( ){ 
         var otoy = cc.instantiate(this.planet)
         this.univ.addChild(otoy) 
         otoy.rush = false
         otoy.getComponent('planet').type =this.types [parseInt(cc.rand())%2 ]
         otoy.position = cc.v2( -270 + (540)* cc.random0To1(),440*this.planetCtr) 
         otoy.getComponent('planet').height =  parseInt(otoy.position.y /440) 
+        // var trail = cc.instantiate(this.trailFab)
+        // trail.getComponent('trailScript').leader = otoy
+        // this.univ.addChild(trail)
         this.planetCtr+=1  
         
         
