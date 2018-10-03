@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "1c994fa6-c4f5-4b7e-9adf-7c6ffd20fdbc",
+  "uuid": "660d37ea-56a3-48c9-9762-759c1471262c",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
-    "earthAsset 1": {
+    "earthAsset 16": {
       "ver": "1.0.3",
-      "uuid": "3909c388-ad9b-4488-b725-573667a2352a",
-      "rawTextureUuid": "1c994fa6-c4f5-4b7e-9adf-7c6ffd20fdbc",
+      "uuid": "abba88b2-6225-4d12-8f04-ff2d66862aae",
+      "rawTextureUuid": "660d37ea-56a3-48c9-9762-759c1471262c",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -16,10 +16,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 2059,
-      "height": 602,
-      "rawWidth": 2059,
-      "rawHeight": 602,
+      "width": 885,
+      "height": 11,
+      "rawWidth": 885,
+      "rawHeight": 11,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,

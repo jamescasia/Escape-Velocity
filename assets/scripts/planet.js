@@ -80,8 +80,9 @@ cc.Class({
     },
 
     update (dt) { 
+        
 
-        if(  (globals.playerHeight)-8>= this.height && globals.playerHeight!= undefined) {
+        if(  (globals.playerHeight)-8>= this.height && globals.playerHeight!= undefined&& this.height >1) {
             globals.planetCount-=1
             this.node.destroy()
              }

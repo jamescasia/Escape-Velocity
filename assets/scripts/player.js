@@ -15,7 +15,8 @@ cc.Class({
         lose:false,
         height:0,
         touched:false,
-        trail:cc.Node
+        trail:cc.Node,
+        cameraMoving:false
 
         
     },
@@ -95,7 +96,7 @@ cc.Class({
     },
 
     fire(){
-        if(this.firing)return
+        if(this.firing||this.cameraMoving )return
         this.trail.getComponent(cc.ParticleSystem).resetSystem()  
         this.trail.opacity = 255
         this.landed =false

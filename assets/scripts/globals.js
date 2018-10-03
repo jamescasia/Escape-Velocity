@@ -11,6 +11,7 @@
 var playerHeight = 0
 var planetCount = 0
 var globals = {
-    planetCount:0
+    planetCount:0,
+    firstGame:true
 }
 module.exports = globals;
