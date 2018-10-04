@@ -10,13 +10,7 @@ cc.Class({
         player: cc.Node,
         univ: cc.Node,
         planetCtr: 0,
-        camera: cc.Node,
-        pla1: cc.Node,
-        pla2: cc.Node,
-        pla3: cc.Node,
-        pla4: cc.Node,
-        pla5: cc.Node,
-        pla6: cc.Node,
+        camera: cc.Node, 
         scoreLabel: cc.Node,
         score: 0,
         bestLabel: cc.Node,
@@ -36,12 +30,15 @@ cc.Class({
         vel: cc.Node,
         broken:false,
         startVal:0,
-        newBest:false
+        newBest:false,
+        moveOnce:false
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
+        globals.playerHeight = 0
+        globals.planetCount = 0
         this.screenResize()
         this.node.opacity = 0
 
@@ -195,7 +192,18 @@ cc.Class({
             if(this.startVal <=  score && score >2) this.incAnim(score)
             else {
                 //this.numAnim(this.highestCombo) 
-                if(this.newBest) this.gOverNode.getChildByName('part').getComponent(cc.ParticleSystem).resetSystem()  
+                if(this.newBest) {
+                    this.gOverNode.getChildByName('part').getComponent(cc.ParticleSystem).resetSystem()  
+                    var news = cc.sequence(
+                        cc.delayTime(0),
+                        cc.spawn(
+                            cc.scaleTo(0.1, 0.35    ,0.35),
+                            cc.fadeIn(0.2)
+                        )
+                    )
+                    this.gOverNode.getChildByName('new').runAction(news)
+                
+                }
                 this.scoreLabel.getComponent(cc.Label).string = this.score 
                 var glow= cc.sequence(    
                     cc.spawn(
@@ -210,6 +218,7 @@ cc.Class({
                     )
                 
                 )
+                
 
                 this.scoreLabel.runAction(glow)
                 
@@ -312,6 +321,8 @@ cc.Class({
         }
     },
     landed() {
+        
+        // this.moveOnce =true
         this.moveCamera()
 
     },
@@ -320,6 +331,8 @@ cc.Class({
     },
 
     moveCamera() {
+        // if(this.moveOnce)  return
+        // this.moveOnce = false;
         console.log(globals.planetCount)
         var place = function () {
             this.player.getComponent('player').cameraMoving = false

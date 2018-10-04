@@ -27,7 +27,17 @@ cc.Class({
         namae:null,
         stop:false,
         canCall:true, 
-        part:cc.Node
+        part:cc.Node,
+        pla1: cc.SpriteFrame,
+        pla2: cc.SpriteFrame,
+        pla3: cc.SpriteFrame,
+        pla4: cc.SpriteFrame,
+        pla5: cc.SpriteFrame,
+        pla6: cc.SpriteFrame,
+        pla7: cc.SpriteFrame,
+        pla8: cc.SpriteFrame,
+        planetDb:[]
+
 
     
     },
@@ -40,6 +50,21 @@ cc.Class({
 
 
     onLoad () {
+        console.log(globals.planetCount , "um of planets")
+        this.planetDb = [this.pla1, this.pla2, this.pla3,this.pla4,this.pla5, this.pla6, this.pla7, this.pla8] 
+        var pool =0
+        console.log("height",globals.planetCount)
+        if(globals.planetCount <=20 ) {pool =    ((0.35* globals.planetCount) + 1 )
+        if(pool - Math.floor(pool) >= 0.5) pool = Math.ceil(pool)
+        else pool = Math.floor(pool)
+
+        }
+        else pool = 8
+        
+        var pla = parseInt(cc.rand())%pool
+        console.log("Random max",pool,"resultant planet", pla)
+        this.node.getComponent(cc.Sprite).spriteFrame =  this.planetDb[pla]
+
         this.part.setLocalZOrder(-4)
         var a =  -114.29 *(cc.director.getWinSize().height/cc.director.getWinSize().width ) + 441.43 
         

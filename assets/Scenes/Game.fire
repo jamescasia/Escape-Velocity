@@ -1287,7 +1287,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 105.45,
+      "width": 105.45000000000005,
       "height": 32.26
     },
     "_rotationX": 0,
@@ -1451,7 +1451,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 226.45,
+      "width": -413.5500000000002,
       "height": 174.19
     },
     "_rotationX": 0,
@@ -1556,7 +1556,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 190.16,
+      "width": -474.07000000000005,
       "height": 261.29
     },
     "_rotationX": 0,
@@ -2449,7 +2449,7 @@
     ],
     "_prefab": null,
     "_id": "41g681g6BIJaEv9oG5E0/X",
-    "_opacity": 255,
+    "_opacity": 0,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -2470,12 +2470,12 @@
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 0.36,
-    "_scaleY": 0.36,
+    "_scaleX": 2,
+    "_scaleY": 2,
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": -449
+      "y": -430
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -2576,12 +2576,6 @@
     "camera": {
       "__id__": 26
     },
-    "pla1": null,
-    "pla2": null,
-    "pla3": null,
-    "pla4": null,
-    "pla5": null,
-    "pla6": null,
     "scoreLabel": {
       "__id__": 40
     },
@@ -2617,6 +2611,7 @@
     },
     "broken": false,
     "startVal": 0,
-    "newBest": false
+    "newBest": false,
+    "moveOnce": false
   }
 ]

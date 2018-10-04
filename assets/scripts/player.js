@@ -96,7 +96,7 @@ cc.Class({
     },
 
     fire(){
-        if(this.firing||this.cameraMoving )return
+        if(this.firing)return
         this.trail.getComponent(cc.ParticleSystem).resetSystem()  
         this.trail.opacity = 255
         this.landed =false
@@ -116,9 +116,8 @@ cc.Class({
         body.node.getComponent('planet').landed()
     },
     
-    land(){ 
+    land(){   
         
-
         this.firing = false
         this.head.stopAction(this.fireAction)
         this.head.position = cc.v2(0, 0)

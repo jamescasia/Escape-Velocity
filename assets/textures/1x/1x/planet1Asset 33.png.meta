@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "c689dbf3-33fa-4871-a6ff-81f636742f88",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "planet1Asset 33": {
+      "ver": "1.0.3",
+      "uuid": "970ee569-e50c-4c96-a722-ceaddf014e08",
+      "rawTextureUuid": "c689dbf3-33fa-4871-a6ff-81f636742f88",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 12,
+      "offsetY": -14,
+      "trimX": 36,
+      "trimY": 41,
+      "width": 92,
+      "height": 92,
+      "rawWidth": 140,
+      "rawHeight": 146,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
