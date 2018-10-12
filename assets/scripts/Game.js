@@ -461,5 +461,17 @@ cc.Class({
     },
     goPage(){
         cc.sys.openURL("https://www.facebook.com/aetherapps/")
-    }
+    },
+    CCBY(){
+        cc.sys.openURL("https://creativecommons.org/licenses/by-nc/4.0/deed.en_US")
+    },
+    YingYin(){
+        cc.sys.openURL("https://www.behance.net/yingyin")
+    },
+    SpaceUp(){
+        cc.sys.openURL("https://www.behance.net/gallery/28195863/Space-Up")
+    },
+    ofl(){
+        cc.sys.openURL("https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL")
+    },
 });
