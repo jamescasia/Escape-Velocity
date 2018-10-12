@@ -31,12 +31,38 @@ cc.Class({
         broken:false,
         startVal:0,
         newBest:false,
-        moveOnce:false
+        moveOnce:false,
+        ryt:cc.Node,
+        left:cc.Node,
+        skins:cc.Node,
+        rocketSkin:cc.Sprite,
+        style1:cc.SpriteFrame,
+        style2:cc.SpriteFrame,
+        style3:cc.SpriteFrame,
+        style4:cc.SpriteFrame,
+        skinsArray:[],
+        req:cc.Label,
+        lock:cc.Node,
+        lctr:0,
+        locked:false,
+        infoNode:cc.Node,
+        showingInfo:false,
+        infBtn:cc.Node,
+        status:cc.Node, 
+        bar:cc.Node
     },
 
     // LIFE-CYCLE CALLBACKS:
+    tapped(){
+        var t = this;
+        if (t.over) t.restart()
+        if(t.showingInfo) t.hideInfo()
+        
+    },
 
-    onLoad() {
+    onLoad() { 
+        this.lock.opacity = 0
+        this.skinsArray = [this.style1, this.style2, this.style3, this.style4]
         globals.playerHeight = 0
         globals.planetCount = 0
         this.screenResize()
@@ -52,15 +78,15 @@ cc.Class({
         this.node.runAction(blink)
         this.types = ["aberrant", "normal"]
 
-        var t = this;
-        cc.eventManager.addListener({
-            event: cc.EventListener.TOUCH_ONE_BY_ONE,
-            onTouchBegan: function (touch, event) {
+        
+        // cc.eventManager.addListener({
+        //     event: cc.EventListener.TOUCH_ONE_BY_ONE,
+        //     onTouchBegan: function (touch, event) {
 
-                if (t.over) t.restart()
-                return true
-            },
-        }, t.node);
+                
+        //         return true
+        //     },
+        // }, t.node);
         this.scoreLabel.opacity = 0
         this.bestLabel.opacity = 0
         this.loadData()
@@ -83,23 +109,24 @@ cc.Class({
         var dt = 1 / 80
         var t = this
         this.addPlanets()
+        this.skins.opacity = 0
+        if(this.numOfGames %10== 0) {
 
-        // var gameTimer = this.schedule(function() { 
-        //     this.score = this.player.getComponent('player').height 
-        //     this.scoreLabel.getComponent(cc.Label).string = this.score  
-        //     if(this.score > this.bestScore) this.storage.bestScore = this.score , this.ss()
-        //    if(   this.player.getComponent('player').height + 5>=  this.planetCtr   )this.addPlanet()
+        var samuk = cc.repeatForever(cc.sequence(
+            cc.spawn(
+            cc.scaleTo(0.3,0.06,0.06 ),
+            cc.fadeTo(0.3, 255 )
+            ),
+            cc.spawn(
+            cc.fadeTo(0.3, 150 ),
+            cc.scaleTo(0.3, 0.055, 0.055 ),)
+        ))
+        this.skins.runAction(samuk)}
 
-
-
-
-
-        // }, dt );
-
-
-
+     
 
     },
+
     placeLine(){
         var rytleft = cc.repeatForever(
             cc.sequence(
@@ -137,7 +164,9 @@ cc.Class({
         this.camera.runAction(camMove)
     },
     gameOver() { 
-         
+        this.skins.position = cc.v2(0,-900)
+        this.ryt.position = cc.v2(0,-900)
+        this.left.position = cc.v2(0,-900)
         this.earthCam()
         if (this.score > this.bestScore) this.storage.bestScore = this.score, this.bestScore = this.score, this.ss(), this.newBest = true
         globals.planetCount = 0
@@ -147,11 +176,6 @@ cc.Class({
         this.storage.numOfGames = this.numOfGames
         this.scoreBoard.getChildByName('b').opacity = 0
         this.ss()
-
-        // var move = cc.sequence(cc.moveBy(0.4, 0 , -50), cc.scaleTo(0.2, 1.4,1.4))
-        // this.scoreBoard.runAction(move)
-        // this.scoreLabel.scale = cc.v2(1.2,1.2)
-        
         this.gOverNode.getChildByName("best").getComponent(cc.Label).string = "Your best is " + this.bestScore + "\n in " + this.numOfGames + " games"
         var show = function () {
             this.gOverNode.position = cc.v2(0, 331)
@@ -252,6 +276,14 @@ cc.Class({
         this.ss()
     },
     firstTap() {
+        this.infBtn.getComponent(cc.Button).interactable = false 
+        this.skins.stopAllActions()
+        this.skins.runAction(cc.fadeOut(0.3))
+        this.ryt.runAction(cc.fadeOut(0.3))
+        this.ryt.getComponent(cc.Button).interactable = false
+        this.left.getComponent(cc.Button).interactable= false
+        this.left.runAction(cc.fadeOut(0.3))
+        
         var ins = cc.fadeIn(0.3)
         var sins = cc.fadeIn(0.3)
         var app = function () {
@@ -319,11 +351,13 @@ cc.Class({
             this.addPlanet()
 
         }
+        console.log("UNIV", this.univ.children)
     },
     landed() {
         
         // this.moveOnce =true
         this.moveCamera()
+        
 
     },
     stopCamera() {
@@ -331,6 +365,7 @@ cc.Class({
     },
 
     moveCamera() {
+        console.log("moving camera")
         // if(this.moveOnce)  return
         // this.moveOnce = false;
         console.log(globals.planetCount)
@@ -340,7 +375,7 @@ cc.Class({
         this.player.getComponent('player').cameraMoving = true
         var camMove = cc.sequence(
             cc.delayTime(0),
-            (cc.moveTo(0.4, 0, this.player.position.y + 440)).easing(cc.easeCircleActionOut())
+            (cc.moveTo(0.3, 0, this.player.position.y + 440)).easing(cc.easeCircleActionOut())
             , cc.callFunc(place, this)
         )
         this.camera.runAction(camMove)
@@ -361,4 +396,70 @@ cc.Class({
 
 
     },
+    panRight(){
+        this.lctr+=1
+        this.bar.stopAllActions()
+        this.bar.runAction(cc.fadeIn(0.2))
+        if(this.lctr >3) this.lctr = 0
+        var ryte = cc.sequence(
+            cc.spawn(
+                cc.rotateBy(0.4, 360),
+                cc.fadeOut(0.2)
+            ),
+            cc.callFunc(this.setSkin, this), cc.rotateTo(0, 0), cc.fadeIn(0))
+        // this.player.runAction(ryte)
+        this.setSkin()
+        
+
+        // this.setSkin()
+
+    },
+    panLeft(){
+        
+        this.bar.opacity =255
+        this.lctr-=1
+        if(this.lctr <0) this.lctr = 3
+        var ryte = cc.sequence(cc.rotateBy(0.4, -360),cc.callFunc(this.setSkin, this), cc.rotateTo(0, 0))
+        this.player.runAction(ryte)
+        // this.setSkin()
+    },
+    setSkin(){
+        let poss = [-395,-127,135,397]
+        this.status.position  = cc.v2(poss[this.lctr] , 0)
+        let reqs = [0, 20,40,60]
+        if(this.bestScore < reqs[this.lctr]) this.lock.opacity = 255,this.req.string = "score " + reqs[this.lctr], this.locked = true
+        else this.lock.opacity = 0,this.req.string = "",this.locked = false
+        
+        this.rocketSkin.spriteFrame = this.skinsArray[this.lctr]
+        this.bar.runAction(cc.sequence(cc.delayTime(2), cc.fadeOut(1) ))
+    },
+    showInfo(){
+        this.infoNode.position = cc.v2(0,0)
+        this.infBtn.position = cc.v2(-900,0)
+        this.showingInfo = true
+        this.ins.stopAllActions()
+        this.ins.runAction(cc.fadeOut(0.3))
+        this.title.runAction(cc.fadeOut(0.3))
+        this.univ.runAction(cc.fadeOut(0.3)) 
+        this.infoNode.runAction(cc.fadeIn(0.3))
+
+        this.univ.children[9].getChildByName('particlesystem').getComponent(cc.ParticleSystem).stopSystem()
+        this.univ.children[8].getChildByName('particlesystem').getComponent(cc.ParticleSystem).stopSystem() 
+    },
+    hideInfo(){
+        
+        this.showingInfo = false
+        this.infoNode.runAction(cc.fadeOut(0.3))
+        this.univ.children[9].getChildByName('particlesystem').getComponent(cc.ParticleSystem).resetSystem()
+        this.univ.children[8].getChildByName('particlesystem').getComponent(cc.ParticleSystem).resetSystem() 
+        if(!this.player.getComponent('player').touched)  this.title.runAction( cc.fadeIn(0.3)) ,this.univ.runAction(cc.fadeIn(0.3)) 
+        var a = cc.repeatForever(cc.sequence(cc.fadeIn(0.5), cc.fadeOut(0.9)))
+        this.ins.runAction(a)
+        
+        this.infoNode.position = cc.v2(-900,0)
+        this.infBtn.position = cc.v2(0,217) 
+    },
+    goPage(){
+        cc.sys.openURL("https://www.facebook.com/aetherapps/")
+    }
 });

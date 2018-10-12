@@ -7,7 +7,7 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
-var globals = require("globals")
+var globals = require("globals") 
 cc.Class({
     extends: cc.Component,
 
@@ -36,7 +36,9 @@ cc.Class({
         pla6: cc.SpriteFrame,
         pla7: cc.SpriteFrame,
         pla8: cc.SpriteFrame,
-        planetDb:[]
+        planetDb:[],
+        a:0,
+        b:0
 
 
     
@@ -50,6 +52,8 @@ cc.Class({
 
 
     onLoad () {
+        this.a = -114.29 *(cc.director.getWinSize().height/cc.director.getWinSize().width ) + 435
+        this.b = this.a + 200
         console.log(globals.planetCount , "um of planets")
         this.planetDb = [this.pla1, this.pla2, this.pla3,this.pla4,this.pla5, this.pla6, this.pla7, this.pla8] 
         var pool =0
@@ -115,12 +119,10 @@ cc.Class({
 
         this.node.position =  cc.v2(this.posx , this.node.position.y) 
             // if( cc.director.getWinSize().height/cc.director.getWinSize().width <= 1.34     )  
-        var a =  -114.29 *(cc.director.getWinSize().height/cc.director.getWinSize().width ) + 441.43
-
-        var b = a + 200
-        if (this.posx >= a && this.posx <=b)  this.right = true
-        if (this.posx <= -a && this.posx >=-b) this.right = false
-        if(this.canCall&& this.type == "aberrant")this.stopTimer(0.5 + cc.random0To1()*2 )
+        
+        if (this.posx >= this.a  )  this.right = true
+        if (this.posx <= -this.a  ) this.right = false
+        if(this.canCall&& this.type == "aberrant")this.stopTimer(1 + cc.random0To1()*1.3 )
         if(!this.stop) {
 		if (this.right) this.posx-=this.speed*dt 
         else if (!this.right) this.posx+=this.speed*dt }
@@ -141,7 +143,7 @@ cc.Class({
 
         var time = this.schedule(function() {   
             this.canCall = true
-            },0,0 , 0.7 + cc.random0To1()*1.5);
+            },0,0 , 1 + cc.random0To1() );
     },
      
 

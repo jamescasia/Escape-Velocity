@@ -16,28 +16,36 @@ cc.Class({
         height:0,
         touched:false,
         trail:cc.Node,
-        cameraMoving:false
+        cameraMoving:false,
+        ryt:cc.Node,
+        left:cc.Node,
+        rocket:cc.Node,
+        prevBody:null
 
         
     },
 
     // LIFE-CYCLE CALLBACKS:
+    tapped(){
+        var t = this
+        if(!t.game.getComponent('Game').locked && !t.game.getComponent('Game').showingInfo )t.fire();  
+        if(!t.touched&&!t.game.getComponent('Game').locked && !t.game.getComponent('Game').showingInfo ) t.game.getComponent('Game').firstTap(),t.touched = true 
 
+    },
     onLoad () {
         this.trail.setLocalZOrder(-2)
         this.trail.opacity = 0
         this.height = parseInt(this.node.y /440)+1 
         globals.playerHeight = this.height 
         this.angles = 0
-        var t = this;
-        cc.eventManager.addListener({
-            event: cc.EventListener.TOUCH_ONE_BY_ONE, 
-            onTouchBegan: function(touch, event) { 
-                t.fire(); 
-                if(!t.touched) t.game.getComponent('Game').firstTap(),t.touched = true 
-                return true
-            },
-        }, t.node);
+        // var t = this;
+        // cc.eventManager.addListener({
+        //     event: cc.EventListener.TOUCH_ONE_BY_ONE, 
+        //     onTouchBegan: function(touch, event) { 
+                
+        //         return true
+        //     },
+        // }, t.node);
  
         
 
@@ -66,6 +74,11 @@ cc.Class({
     },
 
     update(dt){
+        // if(this.cameraMoving || this.firing ) this.rocket.color  = new cc.Color(100,100,100);
+        // else this.rocket.color  = new cc.Color(255, 255, 255);
+        // if(this.cameraMoving || this.firing ) this.rocket.opacity = 100
+        // else this.rocket.opacity = 255
+        // console.log("FIRING", this.firing)
         if(this.touched){
         this.height = parseInt(this.node.y /440)+1 
         globals.playerHeight = this.height 
@@ -96,7 +109,7 @@ cc.Class({
     },
 
     fire(){
-        if(this.firing)return
+        if(this.firing||this.cameraMoving || this.game.getComponent('Game').over   )return
         this.trail.getComponent(cc.ParticleSystem).resetSystem()  
         this.trail.opacity = 255
         this.landed =false
@@ -111,9 +124,13 @@ cc.Class({
     },
 
     hit(body){ 
+        if(body!= this.prevBody){
         this.curPlanet=body
         this.land() 
         body.node.getComponent('planet').landed()
+        this.prevBody =  body
+        }
+        
     },
     
     land(){   
@@ -124,7 +141,8 @@ cc.Class({
         this.landed = true 
         if(this.landed) this.node.position = cc.v2 (this.curPlanet.node.position.x, this.curPlanet.node.position.y)
         this.trail.getComponent(cc.ParticleSystem).stopSystem()  
-       this.game.getComponent('Game').landed()
+       this.game.getComponent('Game').landed() 
+       
         
         //
         //

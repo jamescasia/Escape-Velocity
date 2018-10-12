@@ -314,7 +314,9 @@
     "pla8": {
       "__uuid__": "8acab6a0-8c5c-4cca-9af5-86ef4ac7552e"
     },
-    "planetDb": []
+    "planetDb": [],
+    "a": 0,
+    "b": 0
   },
   {
     "__type__": "cc.PrefabInfo",
