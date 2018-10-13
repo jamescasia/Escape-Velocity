@@ -40,6 +40,7 @@ cc.Class({
         style2:cc.SpriteFrame,
         style3:cc.SpriteFrame,
         style4:cc.SpriteFrame,
+        style5:cc.SpriteFrame,
         skinsArray:[],
         req:cc.Label,
         lock:cc.Node,
@@ -49,7 +50,11 @@ cc.Class({
         showingInfo:false,
         infBtn:cc.Node,
         status:cc.Node, 
-        bar:cc.Node
+        bar:cc.Node, 
+        parallax:cc.Node,
+        planetFab:cc.Prefab,
+        starFab:cc.Prefab,
+        laxCt:0
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -62,7 +67,7 @@ cc.Class({
 
     onLoad() { 
         this.lock.opacity = 0
-        this.skinsArray = [this.style1, this.style2, this.style3, this.style4]
+        this.skinsArray = [this.style1, this.style2, this.style3, this.style4, this.style5]
         globals.playerHeight = 0
         globals.planetCount = 0
         this.screenResize()
@@ -356,6 +361,8 @@ cc.Class({
     landed() {
         
         // this.moveOnce =true
+        if((this.score%24 == 0 || this.score%25 == 0|| this.score%26 == 0|| this.score%27 == 0) && this.score >=24) this.addBgPlanet(), this.addBgStar(), console.log("added bg")
+        
         this.moveCamera()
         
 
@@ -363,10 +370,22 @@ cc.Class({
     stopCamera() {
         this.camera.position = cc.v2(0, this.player.position.y + 440)
     },
+    addBgPlanet(){
+        var plabg = cc.instantiate(this.planetFab)
+        plabg.position = cc.v2(0, 1000+ this.laxCt*3000)
+        this.parallax.getChildByName('planets').addChild(plabg)
+        
+    },
+    addBgStar(){
+        var starbg = cc.instantiate(this.starFab)
+        starbg.position = cc.v2(0, 1000+ this.laxCt*3000)
+        this.parallax.getChildByName('stars').addChild(starbg)
+        this.laxCt+=1
+    },
 
     moveCamera() {
         console.log("moving camera")
-        // if(this.moveOnce)  return
+       // if(this.moveOnce)  return
         // this.moveOnce = false;
         console.log(globals.planetCount)
         var place = function () {
@@ -378,7 +397,12 @@ cc.Class({
             (cc.moveTo(0.3, 0, this.player.position.y + 440)).easing(cc.easeCircleActionOut())
             , cc.callFunc(place, this)
         )
+        var parMove = cc.moveTo(0.3, 0, -(this.player.position.y + 440)*0.2).easing(cc.easeCircleActionOut()) 
+        var starMove = cc.moveTo(0.3, 0, -(this.player.position.y + 440)*0.1).easing(cc.easeCircleActionOut()) 
         this.camera.runAction(camMove)
+        this.parallax.getChildByName('planets').runAction(parMove)
+        this.parallax.getChildByName('stars').runAction(starMove)
+        // this.univ.position = cc.v2( 0 ,  0.4*(this.player.position.y ))
         // this.camera.position  =cc.v2(0, this.player.y+500) 
     },
 
@@ -400,7 +424,7 @@ cc.Class({
         this.lctr+=1
         this.bar.stopAllActions()
         this.bar.runAction(cc.fadeIn(0.2))
-        if(this.lctr >3) this.lctr = 0
+        if(this.lctr >4) this.lctr = 0
         var ryte = cc.sequence(
             cc.spawn(
                 cc.rotateBy(0.4, 360),
@@ -424,9 +448,9 @@ cc.Class({
         // this.setSkin()
     },
     setSkin(){
-        let poss = [-395,-127,135,397]
+        let poss = [-526.5, -260.4,2.5,263.8,529.9]
         this.status.position  = cc.v2(poss[this.lctr] , 0)
-        let reqs = [0, 20,40,60]
+        let reqs = [0, 25,50,75, 100]
         if(this.bestScore < reqs[this.lctr]) this.lock.opacity = 255,this.req.string = "score " + reqs[this.lctr], this.locked = true
         else this.lock.opacity = 0,this.req.string = "",this.locked = false
         

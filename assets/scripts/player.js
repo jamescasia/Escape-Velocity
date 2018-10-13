@@ -105,7 +105,8 @@ cc.Class({
         this.firing = false
         this.trail.opacity = 0
         if(!this.landed) { this.lose = true
-        this.gameOver()}
+        this.gameOver()
+    }
     },
 
     fire(){
