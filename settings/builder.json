@@ -3,7 +3,10 @@
   "appSecret": "",
   "encryptJs": false,
   "excludeScenes": [
-    "fbd5e1d8-6448-4be2-8714-450dadd8c293"
+    "fbd5e1d8-6448-4be2-8714-450dadd8c293",
+    "1b4571a6-8abf-4258-a832-d300698f1876",
+    "9139376b-05c0-4c42-8377-6d044b540f67",
+    "13603192-7832-4c59-97e2-0108a5a01c46"
   ],
   "fb-instant-games": {},
   "includeAnySDK": false,

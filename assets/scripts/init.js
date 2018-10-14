@@ -33,7 +33,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        if(!globals.musicStarted)cc.audioEngine.playMusic(this.bgMusic), globals.musicStarted = true
+        // if(!globals.musicStarted)cc.audioEngine.playMusic(this.bgMusic), globals.musicStarted = true
 
     },
 

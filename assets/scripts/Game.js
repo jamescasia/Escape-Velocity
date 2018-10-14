@@ -97,7 +97,7 @@ cc.Class({
         this.scoreLabel.opacity = 0
         this.bestLabel.opacity = 0
         this.loadData()
-        if(this.numOfGames>1)this.placeLine()
+        if(this.numOfGames>0)this.placeLine()
 
         this.bestLabel.getComponent(cc.Label).string = "BEST: " + this.bestScore
 

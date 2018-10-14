@@ -69,7 +69,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "01d87c66-eb32-47b9-8caa-fa1c022011b6"
+      "__uuid__": "4d7213ce-f156-456b-89f9-c387294f1a7d"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -92,7 +92,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "c13edf7a-bf22-4c9b-9c70-abf1e0d9b092"
     },
     "fileId": "ddcr7UGPFIMZfI5/pikmBc",
     "sync": false

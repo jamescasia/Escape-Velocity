@@ -136,11 +136,19 @@ cc.Class({
         console.log("HIT",body)
         var action = cc.sequence(
             cc.scaleTo(0.1,2.3,2.3),
-            cc.fadeOut(0 , 0.5),
+            cc.fadeTo(0.01 , 0.5),
             cc.spawn(
                 cc.scaleTo(0.4,1.05,1.05 ),
                 cc.fadeIn(0.4),
             ) ).easing(cc.easeCubicActionOut())
+            var action2 = cc.sequence(
+                cc.scaleTo(0.1,2,2),
+                cc.fadeTo(0.01 , 0.5),
+                cc.spawn(
+                    cc.scaleTo(0.4,1  ,1   ),
+                    cc.fadeIn(0.4),
+                ) ).easing(cc.easeCubicActionOut())
+        this.node.runAction(action2)
         body.node.runAction(action)
         body.node.getComponent('planet').landed()
         // body.node.getChildByName('eject').getComponent(cc.ParticleSystem).resetSystem()  
