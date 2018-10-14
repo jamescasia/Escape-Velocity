@@ -54,7 +54,9 @@ cc.Class({
         parallax:cc.Node,
         planetFab:cc.Prefab,
         starFab:cc.Prefab,
-        laxCt:0
+        laxCt:0,
+        newBestClip:cc.AudioClip
+        
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -95,7 +97,7 @@ cc.Class({
         this.scoreLabel.opacity = 0
         this.bestLabel.opacity = 0
         this.loadData()
-        if(this.numOfGames>0)this.placeLine()
+        if(this.numOfGames>1)this.placeLine()
 
         this.bestLabel.getComponent(cc.Label).string = "BEST: " + this.bestScore
 
@@ -162,10 +164,13 @@ cc.Class({
     earthCam() {
         this.player.position = cc.v2(0, -440)
         var delay = 0.6 + this.score / 16
-
-        var camMove = cc.sequence(
-            cc.delayTime(0),
-            (cc.moveTo(delay, 0, this.player.position.y + 440)).easing(cc.easeQuarticActionOut()))
+        var playbest = function(){
+            if(this.newBest) cc.audioEngine.playEffect(this.newBestClip, false,0.7)
+        }
+        var camMove = cc.sequence( 
+            cc.moveTo(delay, 0, this.player.position.y + 440),
+            cc.callFunc(playbest, this)).easing(cc.easeQuarticActionOut())
+            
         this.camera.runAction(camMove)
     },
     gameOver() { 
@@ -173,7 +178,7 @@ cc.Class({
         this.ryt.position = cc.v2(0,-900)
         this.left.position = cc.v2(0,-900)
         this.earthCam()
-        if (this.score > this.bestScore) this.storage.bestScore = this.score, this.bestScore = this.score, this.ss(), this.newBest = true
+        if (this.score > this.bestScore) this.storage.bestScore = this.score, this.bestScore = this.score, this.ss(), this.newBest = true, 
         globals.planetCount = 0
 
         this.over = true
@@ -270,10 +275,11 @@ cc.Class({
         this.storage = JSON.parse(cc.sys.localStorage.getItem('local'))
         // this.storage = null
         if (this.storage == null) {
-            this.storage = { bestScore: 0, numOfGames: 0, coins: 0 }
+            this.storage = { bestScore: 0, numOfGames: 0, coins: 0 , lctr:0}
             cc.sys.localStorage.setItem('local', JSON.stringify(this.storage))
         }
 
+        this.lctr =  JSON.parse(parseInt(this.storage.lctr))
         this.coins = JSON.parse(parseInt(this.storage.coins))
         this.bestScore = JSON.parse(parseInt(this.storage.bestScore))
         this.numOfGames = JSON.parse(parseInt(this.storage.numOfGames))
@@ -456,6 +462,8 @@ cc.Class({
         
         this.rocketSkin.spriteFrame = this.skinsArray[this.lctr]
         this.bar.runAction(cc.sequence(cc.delayTime(2), cc.fadeOut(1) ))
+        this.storage.lctr = this.lctr
+        this.ss()
     },
     showInfo(){
         this.infoNode.position = cc.v2(0,0)

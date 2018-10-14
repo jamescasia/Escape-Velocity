@@ -20,7 +20,10 @@ cc.Class({
         ryt:cc.Node,
         left:cc.Node,
         rocket:cc.Node,
-        prevBody:null
+        prevBody:null,
+        scoreAudio:cc.AudioClip,
+        loseAudio:cc.AudioClip,
+        errorClip:cc.AudioClip
 
         
     },
@@ -29,6 +32,7 @@ cc.Class({
     tapped(){
         var t = this
         if(!t.game.getComponent('Game').locked && !t.game.getComponent('Game').showingInfo )t.fire();  
+        if(t.game.getComponent('Game').locked) cc.audioEngine.playEffect(this.errorClip, false,0.7)
         if(!t.touched&&!t.game.getComponent('Game').locked && !t.game.getComponent('Game').showingInfo ) t.game.getComponent('Game').firstTap(),t.touched = true 
 
     },
@@ -127,14 +131,27 @@ cc.Class({
     hit(body){ 
         if(body!= this.prevBody){
         this.curPlanet=body
-        this.land() 
+       
+        this.land()  
+        console.log("HIT",body)
+        var action = cc.sequence(
+            cc.scaleTo(0.1,2.3,2.3),
+            cc.fadeOut(0 , 0.5),
+            cc.spawn(
+                cc.scaleTo(0.4,1.05,1.05 ),
+                cc.fadeIn(0.4),
+            ) ).easing(cc.easeCubicActionOut())
+        body.node.runAction(action)
         body.node.getComponent('planet').landed()
+        // body.node.getChildByName('eject').getComponent(cc.ParticleSystem).resetSystem()  
         this.prevBody =  body
+        
         }
         
     },
     
     land(){   
+        cc.audioEngine.playEffect(this.scoreAudio, false,0.7)
         
         this.firing = false
         this.head.stopAction(this.fireAction)
@@ -152,6 +169,7 @@ cc.Class({
 
     }, 
     gameOver(){ 
+        cc.audioEngine.playEffect(this.loseAudio, false,0.7)
         this.node.opacity =0
         this.game.getComponent('Game').gameOver()
         

@@ -4,7 +4,9 @@ var license = ""
 var globals = {
     playerHeight : 0,
     planetCount:0,
-    firstGame:true
+    firstGame:true,
+    musicStarted:false
 }
 
 module.exports = globals; 
+
