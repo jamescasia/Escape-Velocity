@@ -55,19 +55,48 @@ cc.Class({
         planetFab:cc.Prefab,
         starFab:cc.Prefab,
         laxCt:0,
-        newBestClip:cc.AudioClip
+        newBestClip:cc.AudioClip,
+        tapCtrOver:0,
+        quitNode:cc.Node,
+        quitting:false
         
     },
 
     // LIFE-CYCLE CALLBACKS:
     tapped(){
         var t = this;
-        if (t.over) t.restart()
+        if (t.over)  t.tapCtrOver+=1
+        if (t.over && t.tapCtrOver >=2)t.restart()
         if(t.showingInfo) t.hideInfo()
         
     },
 
-    onLoad() { 
+    onLoad() {  
+
+        if (cc.sys.os == cc.sys.OS_ANDROID)jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "dismissLoader", "()V");
+        
+
+        // y = -0.5x + 1.75
+        var scale = -0.5* (cc.director.getWinSize().height/cc.director.getWinSize().width) + 1.75
+        this.infoNode.scale = cc.v2(scale, scale)
+        this.quitNode.scale  = cc.v2(1.2*scale, 1.2*scale)
+        this.gOverNode.getChildByName('over').scale = cc.v2(1.2*scale, 1.2*scale)
+
+        var t = this
+        cc.eventManager.addListener({
+            event: cc.EventListener.KEYBOARD,
+            onKeyPressed: function(keyCode, event) {
+                if (keyCode === cc.KEY.back) {  
+                    if( !t.player.getComponent('player').touched ||t.over) t.quitPrompt()
+                }
+                else if (keyCode === cc.KEY.backspace) {
+                    // the backspace of PC/Mac is pressed
+                }
+                else if (keyCode === cc.KEY.escape) {
+                    // the escape of PC/Mac is pressed
+                }
+            }
+        }, this.node);
         this.lock.opacity = 0
         this.skinsArray = [this.style1, this.style2, this.style3, this.style4, this.style5]
         globals.playerHeight = 0
@@ -97,6 +126,7 @@ cc.Class({
         this.scoreLabel.opacity = 0
         this.bestLabel.opacity = 0
         this.loadData()
+        this.setSkin()
         if(this.numOfGames>0)this.placeLine()
 
         this.bestLabel.getComponent(cc.Label).string = "BEST: " + this.bestScore
@@ -121,12 +151,12 @@ cc.Class({
 
         var samuk = cc.repeatForever(cc.sequence(
             cc.spawn(
-            cc.scaleTo(0.3,0.06,0.06 ),
+            cc.scaleTo(0.3,0.16,0.16 ),
             cc.fadeTo(0.3, 255 )
             ),
             cc.spawn(
             cc.fadeTo(0.3, 150 ),
-            cc.scaleTo(0.3, 0.055, 0.055 ),)
+            cc.scaleTo(0.3, 0.14, 0.14 ),)
         ))
         this.skins.runAction(samuk)}
 
@@ -457,6 +487,7 @@ cc.Class({
         let poss = [-526.5, -260.4,2.5,263.8,529.9]
         this.status.position  = cc.v2(poss[this.lctr] , 0)
         let reqs = [0, 25,50,75, 100]
+        // let reqs = [0, 2,3,4, 5]
         if(this.bestScore < reqs[this.lctr]) this.lock.opacity = 255,this.req.string = "score " + reqs[this.lctr], this.locked = true
         else this.lock.opacity = 0,this.req.string = "",this.locked = false
         
@@ -505,5 +536,35 @@ cc.Class({
     },
     ofl(){
         cc.sys.openURL("https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL")
+    },
+    quitPrompt(){
+        this.gOverNode.runAction(cc.fadeOut(0.3))
+        this.quitting = true
+        this.quitNode.position = cc.v2(0,100) 
+        this.ins.stopAllActions()
+        this.ins.runAction(cc.fadeOut(0.3))
+        this.title.runAction(cc.fadeOut(0.3))
+        this.univ.runAction(cc.fadeOut(0.3)) 
+        this.quitNode.runAction(cc.fadeIn(0.3))
+        this.scoreLabel.runAction(cc.fadeOut(0.3))
+        this.univ.children[9].getChildByName('particlesystem').getComponent(cc.ParticleSystem).stopSystem()
+        this.univ.children[8].getChildByName('particlesystem').getComponent(cc.ParticleSystem).stopSystem() 
+
+    },
+    yesQuit(){cc.game.end()},
+    noQuit(){
+        this.quitting = false
+        this.gOverNode.runAction(cc.fadeIn(0.3))
+ 
+        this.quitNode.runAction(cc.fadeOut(0.3))
+        this.univ.children[9].getChildByName('particlesystem').getComponent(cc.ParticleSystem).resetSystem()
+        this.univ.children[8].getChildByName('particlesystem').getComponent(cc.ParticleSystem).resetSystem() 
+        this.univ.runAction(cc.fadeIn(0.3))
+        if(this.over)this.scoreLabel.runAction(cc.fadeIn(0.3))
+        if(!this.player.getComponent('player').touched)  this.title.runAction( cc.fadeIn(0.3)) ,this.univ.runAction(cc.fadeIn(0.3)) 
+        var a = cc.repeatForever(cc.sequence(cc.fadeIn(0.5), cc.fadeOut(0.9)))
+        if(!this.over) this.ins.runAction(a)
+        
+        this.quitNode.position = cc.v2(-900,-900) 
     },
 });

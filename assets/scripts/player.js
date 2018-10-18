@@ -31,9 +31,9 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
     tapped(){
         var t = this
-        if(!t.game.getComponent('Game').locked && !t.game.getComponent('Game').showingInfo )t.fire();  
-        if(t.game.getComponent('Game').locked) cc.audioEngine.playEffect(this.errorClip, false,0.7)
-        if(!t.touched&&!t.game.getComponent('Game').locked && !t.game.getComponent('Game').showingInfo ) t.game.getComponent('Game').firstTap(),t.touched = true 
+        if(!t.game.getComponent('Game').locked && !t.game.getComponent('Game').showingInfo && !t.game.getComponent('Game').quitting )t.fire();  
+        if(t.game.getComponent('Game').locked && !t.game.getComponent('Game').showingInfo  ) cc.audioEngine.playEffect(this.errorClip, false,0.7)
+        if(!t.touched&&!t.game.getComponent('Game').locked && !t.game.getComponent('Game').showingInfo && !t.game.getComponent('Game').quitting) t.game.getComponent('Game').firstTap(),t.touched = true 
 
     },
     onLoad () {
