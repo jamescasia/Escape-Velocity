@@ -61,7 +61,8 @@ cc.Class({
         quitting:false,
         howNode:cc.Node,
         howBtn:cc.Button,
-        shipBtn:cc.Button
+        shipBtn:cc.Button,
+        godBtn:cc.Node
         
     },
 
@@ -74,7 +75,7 @@ cc.Class({
         
     },
 
-    onLoad() {  
+    onLoad() {   
 
         if (cc.sys.os == cc.sys.OS_ANDROID)jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "dismissLoader", "()V");
         
@@ -506,12 +507,13 @@ cc.Class({
         
         this.rocketSkin.spriteFrame = this.skinsArray[this.lctr]
         this.bar.runAction(cc.sequence(cc.delayTime(2), cc.fadeOut(1) ))
-        if(this.bestScore < reqs[this.lctr])this.storage.lctr = this.lctr,this.ss()
+        if(this.bestScore > reqs[this.lctr])this.storage.lctr = this.lctr,this.ss()
     },
     showInfo(){
         this.howBtn.interactable = false
         this.shipBtn.interactable = false
-        this.infBtn.getComponent(cc.Button).interactable = false
+        this.infBtn.getComponent(cc.Button).interactable = false 
+        this.godBtn.setLocalZOrder(11)
         // this.howBtn.node.setGlobalZOrder(-5)
         // this.shipBtn.node.setGlobalZOrder(-5)
         // this.infBtn.setGlobalZOrder(-5)
@@ -531,8 +533,9 @@ cc.Class({
         this.howBtn.interactable = true
         this.shipBtn.interactable = true 
         this.infBtn.getComponent(cc.Button).interactable = true
-        // this.howBtn.node.setGlobalZOrder(5)
-        // this.shipBtn.node.setGlobalZOrder(5)
+        this.godBtn.setLocalZOrder(-11)
+        // this.howBtn.node.getComponent(cc.Widget).bottom = 2
+        // this.shipBtn.node.getComponent(cc.Widget).bottom = 2
         // this.infBtn.setGlobalZOrder(5)
         this.showingInfo = false
         this.infoNode.runAction(cc.fadeOut(0.3))
@@ -548,9 +551,10 @@ cc.Class({
     showHow(){
         this.howBtn.interactable = false
         this.shipBtn.interactable = false
-        // this.howBtn.node.setGlobalZOrder(-15)
-        // this.shipBtn.node.setGlobalZOrder(-15)
+        // this.howBtn.node.getComponent(cc.Widget).bottom = -300
+        // this.shipBtn.node.getComponent(cc.Widget).bottom = -300
         // this.infBtn.setGlobalZOrder(-15)
+        this.godBtn.setLocalZOrder(11)
         this.infBtn.getComponent(cc.Button).interactable = false
         this.howNode.position = cc.v2(0,0)
         
@@ -569,8 +573,9 @@ cc.Class({
     showHowFirst(){
         this.howBtn.interactable = false
         this.shipBtn.interactable = false
-        // this.howBtn.node.setGlobalZOrder(-15)
-        // this.shipBtn.node.setGlobalZOrder(-15)
+        this.godBtn.setLocalZOrder(11)
+        // this.howBtn.node.getComponent(cc.Widget).bottom = -300
+        // this.shipBtn.node.getComponent(cc.Widget).bottom = -300
         // this.infBtn.setGlobalZOrder(-15)
         this.infBtn.getComponent(cc.Button).interactable = false
         this.howNode.position = cc.v2(0,0)
@@ -591,8 +596,9 @@ cc.Class({
         this.howBtn.interactable = true
         this.shipBtn.interactable = true 
         this.infBtn.interactable = true
-        // this.howBtn.node.setGlobalZOrder(5)
-        // this.shipBtn.node.setGlobalZOrder(5)
+        this.godBtn.setLocalZOrder(-11)
+        // this.howBtn.node.getComponent(cc.Widget).bottom = 2
+        // this.shipBtn.node.getComponent(cc.Widget).bottom = 2
         // this.infBtn.setGlobalZOrder(5)
         this.showingInfo = false
         this.howNode.runAction(cc.fadeOut(0.3))
