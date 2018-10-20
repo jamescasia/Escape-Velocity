@@ -506,8 +506,7 @@ cc.Class({
         
         this.rocketSkin.spriteFrame = this.skinsArray[this.lctr]
         this.bar.runAction(cc.sequence(cc.delayTime(2), cc.fadeOut(1) ))
-        this.storage.lctr = this.lctr
-        this.ss()
+        if(this.bestScore < reqs[this.lctr])this.storage.lctr = this.lctr,this.ss()
     },
     showInfo(){
         this.howBtn.interactable = false

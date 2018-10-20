@@ -3198,7 +3198,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 226.45,
+      "width": -413.5500000000002,
       "height": 174.19
     },
     "_rotationX": 0,
@@ -3303,7 +3303,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 190.16,
+      "width": -474.07000000000005,
       "height": 261.29
     },
     "_rotationX": 0,
@@ -6008,7 +6008,7 @@
     "_components": [],
     "_prefab": null,
     "_id": "e6+xR05FNGirGAfsiGxf+n",
-    "_opacity": 255,
+    "_opacity": 0,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
