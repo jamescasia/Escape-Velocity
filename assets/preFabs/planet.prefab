@@ -134,7 +134,7 @@
     "_enabled": true,
     "_custom": true,
     "_texture": {
-      "__uuid__": "d0d2dc71-44f7-41ce-93bc-703dd83c5c9a"
+      "__uuid__": "ce792c9e-73b4-44cf-9bd0-f02d6498fece"
     },
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
@@ -234,9 +234,7 @@
       "__id__": 1
     },
     "_enabled": true,
-    "_spriteFrame": {
-      "__uuid__": "bf8ba885-0771-4416-bc0e-42d524cb7f43"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,

@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "d0d2dc71-44f7-41ce-93bc-703dd83c5c9a",
+  "uuid": "ce792c9e-73b4-44cf-9bd0-f02d6498fece",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
     "earthAsset 3": {
       "ver": "1.0.3",
-      "uuid": "271832f2-8005-44a9-bb81-3028ec2a68c4",
-      "rawTextureUuid": "d0d2dc71-44f7-41ce-93bc-703dd83c5c9a",
+      "uuid": "544c55fb-c4ab-4091-9230-f7efa9fa6fb3",
+      "rawTextureUuid": "ce792c9e-73b4-44cf-9bd0-f02d6498fece",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,

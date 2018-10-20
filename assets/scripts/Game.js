@@ -58,7 +58,10 @@ cc.Class({
         newBestClip:cc.AudioClip,
         tapCtrOver:0,
         quitNode:cc.Node,
-        quitting:false
+        quitting:false,
+        howNode:cc.Node,
+        howBtn:cc.Button,
+        shipBtn:cc.Button
         
     },
 
@@ -67,7 +70,7 @@ cc.Class({
         var t = this;
         if (t.over)  t.tapCtrOver+=1
         if (t.over && t.tapCtrOver >=2)t.restart()
-        if(t.showingInfo) t.hideInfo()
+        if(t.showingInfo) t.hideInfo(), t.hideHow()
         
     },
 
@@ -80,6 +83,7 @@ cc.Class({
         var scale = -0.5* (cc.director.getWinSize().height/cc.director.getWinSize().width) + 1.75
         this.infoNode.scale = cc.v2(scale, scale)
         this.quitNode.scale  = cc.v2(1.2*scale, 1.2*scale)
+        this.howNode.scale = cc.v2(0.9*scale, 0.9*scale)
         this.gOverNode.getChildByName('over').scale = cc.v2(1.2*scale, 1.2*scale)
 
         var t = this
@@ -127,6 +131,7 @@ cc.Class({
         this.bestLabel.opacity = 0
         this.loadData()
         this.setSkin()
+        
         if(this.numOfGames>0)this.placeLine()
 
         this.bestLabel.getComponent(cc.Label).string = "BEST: " + this.bestScore
@@ -142,11 +147,12 @@ cc.Class({
         var a = cc.repeatForever(cc.sequence(cc.fadeIn(0.5), cc.fadeOut(0.9)))
         this.ins.runAction(a)
         this.title.runAction(breathing)
-
-        var dt = 1 / 80
+ 
         var t = this
+        
         this.addPlanets()
         this.skins.opacity = 0
+        if(this.numOfGames<=2) this.showHowFirst()
         if(this.numOfGames %10== 0) {
 
         var samuk = cc.repeatForever(cc.sequence(
@@ -159,6 +165,9 @@ cc.Class({
             cc.scaleTo(0.3, 0.14, 0.14 ),)
         ))
         this.skins.runAction(samuk)}
+        
+        
+        
 
      
 
@@ -324,6 +333,8 @@ cc.Class({
         this.ryt.getComponent(cc.Button).interactable = false
         this.left.getComponent(cc.Button).interactable= false
         this.left.runAction(cc.fadeOut(0.3))
+        this.howBtn.interactable = false
+        this.howBtn.node.runAction(cc.fadeOut(0.3))
         
         var ins = cc.fadeIn(0.3)
         var sins = cc.fadeIn(0.3)
@@ -380,6 +391,7 @@ cc.Class({
         var a = -114.29 * (cc.director.getWinSize().height / cc.director.getWinSize().width) + 441.43
         otoy.position = cc.v2(-a + (2 * a) * cc.random0To1(), 440 * this.planetCtr)
         otoy.getComponent('planet').height = parseInt(otoy.position.y / 440)
+        // otoy.getChildByName('particlesystem').getComponent(cc.ParticleSystem).resetSystem()
         // var trail = cc.instantiate(this.trailFab)
         // trail.getComponent('trailScript').leader = otoy
         // this.univ.addChild(trail)
@@ -392,7 +404,8 @@ cc.Class({
             this.addPlanet()
 
         }
-        console.log("UNIV", this.univ.children)
+        console.log("UNIV", this.univ.children) 
+        
     },
     landed() {
         
@@ -497,8 +510,14 @@ cc.Class({
         this.ss()
     },
     showInfo(){
+        this.howBtn.interactable = false
+        this.shipBtn.interactable = false
+        this.infBtn.getComponent(cc.Button).interactable = false
+        // this.howBtn.node.setGlobalZOrder(-5)
+        // this.shipBtn.node.setGlobalZOrder(-5)
+        // this.infBtn.setGlobalZOrder(-5)
         this.infoNode.position = cc.v2(0,0)
-        this.infBtn.position = cc.v2(-900,0)
+        // this.infBtn.position = cc.v2(-900,0)
         this.showingInfo = true
         this.ins.stopAllActions()
         this.ins.runAction(cc.fadeOut(0.3))
@@ -507,20 +526,85 @@ cc.Class({
         this.infoNode.runAction(cc.fadeIn(0.3))
 
         this.univ.children[9].getChildByName('particlesystem').getComponent(cc.ParticleSystem).stopSystem()
-        this.univ.children[8].getChildByName('particlesystem').getComponent(cc.ParticleSystem).stopSystem() 
+        this.univ.children[10].getChildByName('particlesystem').getComponent(cc.ParticleSystem).stopSystem() 
     },
     hideInfo(){
-        
+        this.howBtn.interactable = true
+        this.shipBtn.interactable = true 
+        this.infBtn.getComponent(cc.Button).interactable = true
+        // this.howBtn.node.setGlobalZOrder(5)
+        // this.shipBtn.node.setGlobalZOrder(5)
+        // this.infBtn.setGlobalZOrder(5)
         this.showingInfo = false
         this.infoNode.runAction(cc.fadeOut(0.3))
         this.univ.children[9].getChildByName('particlesystem').getComponent(cc.ParticleSystem).resetSystem()
-        this.univ.children[8].getChildByName('particlesystem').getComponent(cc.ParticleSystem).resetSystem() 
+        this.univ.children[10].getChildByName('particlesystem').getComponent(cc.ParticleSystem).resetSystem() 
         if(!this.player.getComponent('player').touched)  this.title.runAction( cc.fadeIn(0.3)) ,this.univ.runAction(cc.fadeIn(0.3)) 
         var a = cc.repeatForever(cc.sequence(cc.fadeIn(0.5), cc.fadeOut(0.9)))
         this.ins.runAction(a)
         
         this.infoNode.position = cc.v2(-900,0)
-        this.infBtn.position = cc.v2(0,217) 
+        // this.infBtn.position = cc.v2(0,217) 
+    },
+    showHow(){
+        this.howBtn.interactable = false
+        this.shipBtn.interactable = false
+        // this.howBtn.node.setGlobalZOrder(-15)
+        // this.shipBtn.node.setGlobalZOrder(-15)
+        // this.infBtn.setGlobalZOrder(-15)
+        this.infBtn.getComponent(cc.Button).interactable = false
+        this.howNode.position = cc.v2(0,0)
+        
+        // this.infBtn.position = cc.v2(-900,0)
+        this.showingInfo = true
+        this.ins.stopAllActions()
+        this.ins.runAction(cc.fadeOut(0.3))
+        this.title.runAction(cc.fadeOut(0.3))
+        this.univ.runAction(cc.fadeOut(0.3)) 
+        this.howNode.runAction(cc.fadeIn(0.3))
+
+       if(this.univ.children[9] != null) this.univ.children[9].children[0] .getComponent(cc.ParticleSystem).stopSystem()
+       if(this.univ.children[10]!= null)this.univ.children[10].children[0].getComponent(cc.ParticleSystem).stopSystem() 
+        
+    },
+    showHowFirst(){
+        this.howBtn.interactable = false
+        this.shipBtn.interactable = false
+        // this.howBtn.node.setGlobalZOrder(-15)
+        // this.shipBtn.node.setGlobalZOrder(-15)
+        // this.infBtn.setGlobalZOrder(-15)
+        this.infBtn.getComponent(cc.Button).interactable = false
+        this.howNode.position = cc.v2(0,0)
+        
+        // this.infBtn.position = cc.v2(-900,0)
+        this.showingInfo = true
+        this.ins.stopAllActions()
+        this.ins.runAction(cc.fadeOut(0.3))
+        this.title.runAction(cc.fadeOut(0.3))
+        this.univ.runAction(cc.fadeOut(0.3)) 
+        this.howNode.runAction(cc.fadeIn(0.3))
+        if(this.univ.children[11].children[0] != null) this.univ.children[11].children[0] .getComponent(cc.ParticleSystem).stopSystem()
+       if(this.univ.children[10].children[0]!= null)this.univ.children[10].children[0].getComponent(cc.ParticleSystem).stopSystem() 
+ 
+        
+    },
+    hideHow(){
+        this.howBtn.interactable = true
+        this.shipBtn.interactable = true 
+        this.infBtn.interactable = true
+        // this.howBtn.node.setGlobalZOrder(5)
+        // this.shipBtn.node.setGlobalZOrder(5)
+        // this.infBtn.setGlobalZOrder(5)
+        this.showingInfo = false
+        this.howNode.runAction(cc.fadeOut(0.3))
+        this.univ.children[9].getChildByName('particlesystem').getComponent(cc.ParticleSystem).resetSystem()
+        this.univ.children[10].getChildByName('particlesystem').getComponent(cc.ParticleSystem).resetSystem() 
+        if(!this.player.getComponent('player').touched)  this.title.runAction( cc.fadeIn(0.3)) ,this.univ.runAction(cc.fadeIn(0.3)) 
+        var a = cc.repeatForever(cc.sequence(cc.fadeIn(0.5), cc.fadeOut(0.9)))
+        this.ins.runAction(a)
+        
+        this.howNode.position = cc.v2(-900,0)
+        // this.infBtn.position = cc.v2(0,217) 
     },
     goPage(){
         cc.sys.openURL("https://www.facebook.com/aetherapps/")
@@ -548,9 +632,10 @@ cc.Class({
         this.quitNode.runAction(cc.fadeIn(0.3))
         this.scoreLabel.runAction(cc.fadeOut(0.3))
         this.univ.children[9].getChildByName('particlesystem').getComponent(cc.ParticleSystem).stopSystem()
-        this.univ.children[8].getChildByName('particlesystem').getComponent(cc.ParticleSystem).stopSystem() 
+        this.univ.children[10].getChildByName('particlesystem').getComponent(cc.ParticleSystem).stopSystem() 
 
     },
+    
     yesQuit(){cc.game.end()},
     noQuit(){
         this.quitting = false
@@ -558,7 +643,7 @@ cc.Class({
  
         this.quitNode.runAction(cc.fadeOut(0.3))
         this.univ.children[9].getChildByName('particlesystem').getComponent(cc.ParticleSystem).resetSystem()
-        this.univ.children[8].getChildByName('particlesystem').getComponent(cc.ParticleSystem).resetSystem() 
+        this.univ.children[10].getChildByName('particlesystem').getComponent(cc.ParticleSystem).resetSystem() 
         this.univ.runAction(cc.fadeIn(0.3))
         if(this.over)this.scoreLabel.runAction(cc.fadeIn(0.3))
         if(!this.player.getComponent('player').touched)  this.title.runAction( cc.fadeIn(0.3)) ,this.univ.runAction(cc.fadeIn(0.3)) 
@@ -567,4 +652,5 @@ cc.Class({
         
         this.quitNode.position = cc.v2(-900,-900) 
     },
+
 });
