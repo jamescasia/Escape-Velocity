@@ -131,6 +131,7 @@ cc.Class({
     hit(body){ 
         if(body!= this.prevBody){
         this.curPlanet=body
+        body.getComponent('planet').speed = 0.4 * body.getComponent('planet').speed
        
         this.land()  
         console.log("HIT",body)

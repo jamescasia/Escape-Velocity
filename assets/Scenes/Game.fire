@@ -1049,11 +1049,11 @@
     "_enabled": true,
     "isAlignOnce": true,
     "_target": null,
-    "_alignFlags": 32,
+    "_alignFlags": 36,
     "_left": 277,
     "_right": 74.30000000000001,
     "_top": 0,
-    "_bottom": 4.899999999999977,
+    "_bottom": 2,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
@@ -1873,11 +1873,11 @@
     "_enabled": true,
     "isAlignOnce": true,
     "_target": null,
-    "_alignFlags": 8,
+    "_alignFlags": 12,
     "_left": 74.3,
     "_right": 74.30000000000001,
     "_top": 0,
-    "_bottom": 4.899999999999977,
+    "_bottom": 2,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
@@ -3198,7 +3198,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": -413.5500000000002,
+      "width": 226.45,
       "height": 174.19
     },
     "_rotationX": 0,
@@ -3303,7 +3303,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": -474.07000000000005,
+      "width": 190.16,
       "height": 261.29
     },
     "_rotationX": 0,
@@ -6273,6 +6273,9 @@
     },
     "shipBtn": {
       "__id__": 20
+    },
+    "godBtn": {
+      "__id__": 3
     }
   }
 ]

@@ -77,15 +77,16 @@ cc.Class({
 
     onLoad() {   
 
-        if (cc.sys.os == cc.sys.OS_ANDROID)jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "dismissLoader", "()V");
+        // if (cc.sys.os == cc.sys.OS_ANDROID)jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "dismissLoader", "()V");
         
 
         // y = -0.5x + 1.75
         var scale = -0.5* (cc.director.getWinSize().height/cc.director.getWinSize().width) + 1.75
-        this.infoNode.scale = cc.v2(scale, scale)
+        if (cc.sys.os != cc.sys.OS_WINDOWS || cc.sys.os != cc.sys.OS_OSX )
+        {this.infoNode.scale = cc.v2(scale, scale)
         this.quitNode.scale  = cc.v2(1.2*scale, 1.2*scale)
         this.howNode.scale = cc.v2(0.9*scale, 0.9*scale)
-        this.gOverNode.getChildByName('over').scale = cc.v2(1.2*scale, 1.2*scale)
+        this.gOverNode.getChildByName('over').scale = cc.v2(1.2*scale, 1.2*scale)}
 
         var t = this
         cc.eventManager.addListener({
@@ -250,6 +251,8 @@ cc.Class({
 
         )
         this.node.runAction(blink)
+
+        this.postBoard()
 
     },
     screenResize(){
@@ -656,6 +659,31 @@ cc.Class({
         if(!this.over) this.ins.runAction(a)
         
         this.quitNode.position = cc.v2(-900,-900) 
+    },
+
+    addScoretoBoard( ){ //worked for global contexts
+        if (typeof FBInstant === 'undefined') return; 
+        var awa = this
+        FBInstant
+            .getLeaderboardAsync('high.'+ FBInstant.context.getID())
+            .then(leaderboard => {
+                console.log(leaderboard.getName());
+                return leaderboard.setScoreAsync(   awa.bestScore);
+                                })
+            .then(() => console.log('Score saveds'))
+            .catch(error => console.error(error));
+    },
+
+    postBoard(){ //worked
+        if (typeof FBInstant === 'undefined') return;
+        var shit = this
+        shit.addScoretoBoard();
+        FBInstant.updateAsync({
+            action: 'LEADERBOARD',
+            name: 'high.' + FBInstant.context.getID()
+          })
+            .then(() => console.log('Update Posted'))
+            .catch(error => console.error(error));
     },
 
 });
