@@ -323,11 +323,13 @@ cc.Class({
         }
 
         this.lctr =  JSON.parse(parseInt(this.storage.lctr))
+
         this.coins = JSON.parse(parseInt(this.storage.coins))
         this.bestScore = JSON.parse(parseInt(this.storage.bestScore))
         this.numOfGames = JSON.parse(parseInt(this.storage.numOfGames))
+        console.log(this.lctr)
 
-        this.ss()
+        // this.ss()
     },
     firstTap() {
         this.infBtn.getComponent(cc.Button).interactable = false 
@@ -491,26 +493,28 @@ cc.Class({
         // this.setSkin()
 
     },
-    panLeft(){
+    // panLeft(){
         
-        this.bar.opacity =255
-        this.lctr-=1
-        if(this.lctr <0) this.lctr = 3
-        var ryte = cc.sequence(cc.rotateBy(0.4, -360),cc.callFunc(this.setSkin, this), cc.rotateTo(0, 0))
-        this.player.runAction(ryte)
-        // this.setSkin()
-    },
+    //     this.bar.opacity =255
+    //     this.lctr-=1
+    //     if(this.lctr <0) this.lctr = 3
+    //     var ryte = cc.sequence(cc.rotateBy(0.4, -360),cc.callFunc(this.setSkin, this), cc.rotateTo(0, 0))
+    //     this.player.runAction(ryte)
+    //     // this.setSkin()
+    // },
     setSkin(){
+        console.log('sysudfoiaf')
         let poss = [-526.5, -260.4,2.5,263.8,529.9]
         this.status.position  = cc.v2(poss[this.lctr] , 0)
-        let reqs = [0, 25,50,75, 100]
+        let reqs = [0,10 ,20,40, 60]
         // let reqs = [0, 2,3,4, 5]
         if(this.bestScore < reqs[this.lctr]) this.lock.opacity = 255,this.req.string = "score " + reqs[this.lctr], this.locked = true
         else this.lock.opacity = 0,this.req.string = "",this.locked = false
         
         this.rocketSkin.spriteFrame = this.skinsArray[this.lctr]
         this.bar.runAction(cc.sequence(cc.delayTime(2), cc.fadeOut(1) ))
-        if(this.bestScore > reqs[this.lctr])this.storage.lctr = this.lctr,this.ss()
+        if(this.bestScore >= reqs[this.lctr]){this.storage.lctr = this.lctr
+            this.ss()}
     },
     showInfo(){
         this.howBtn.interactable = false
